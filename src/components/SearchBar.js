@@ -19,6 +19,7 @@ return(
         id="inptSearch"
         name="searchQuery"
         value={search}
+        placeholder="Find a beer!"
       />
     </div>
 

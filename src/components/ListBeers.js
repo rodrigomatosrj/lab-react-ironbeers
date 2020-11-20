@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import SearchBar from './SearchBar';
-import {Row} from "react-bootstrap";
+import {Row, Container} from "react-bootstrap";
 
 import Header from './Header';
-import { Container } from 'react-bootstrap';
+import SearchBar from './SearchBar';
+import Spinner from './Spinner';
 
 function ListBeers() {
   const [beers, setBeers] = useState([]);
@@ -25,33 +25,47 @@ function ListBeers() {
     fetchData();
   }, [search]);
 
-  console.log(beers);
+
   return (
     <>
       <Header></Header>
       <Container>
-        List Beers
+        
+        <h1>All Beers</h1>
+
         <SearchBar state={[search, setSearch]}></SearchBar>
-        {beers.map((beer) => {
-          return (
-            <Row key={beer._id}>
-              <div className="card">
-                <img
-                  src={beer.image_url} style={{width: '200px'}}
-                  alt="..."
-                />
-                <div className="card-body">
-                  <h5 className="card-title">{beer.name} </h5>
-                  <p className="card-text">
-                    {beer.tagline} <br />
-                    {beer.contributed_by}
-                  </p>
-                  <Link to={`/beers/${beer._id}`} class="btn btn-primary">See details</Link>
+        {!beers.length ? (
+          <Spinner />
+        ) : (
+          beers.map((beer) => {
+            return (
+              <Row key={beer._id}>
+                <div className="card" style={{ width: '100%' }}>
+                  <div className="card-body d-flex justify-content-flex-start">
+                    <div className="mr-5">
+                      <img
+                        src={beer.image_url}
+                        style={{ height: '200px', width: 'auto' }}
+                        alt="..."
+                        className="card-img-top"
+                      />
+                    </div>
+                    <div>
+                      <h5 className="card-title">{beer.name} </h5>
+                      <p className="card-text">
+                        {beer.tagline} <br />
+                        {beer.contributed_by}
+                      </p>
+                      <Link to={`/beers/${beer._id}`} className="btn btn-primary">
+                        See details
+                      </Link>
+                    </div>
+                  </div>
                 </div>
-              </div>
-            </Row>
-          );
-        })}
+              </Row>
+            );
+          })
+        )}
       </Container>
     </>
   );

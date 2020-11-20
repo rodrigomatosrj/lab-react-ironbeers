@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import {Container, Spinner} from "react-bootstrap" 
 
 import Header from './Header';
 
@@ -12,6 +13,7 @@ function SingleBeer(props) {
     attenuation_level: '',
     description: '',
     contributed_by: '',
+    render: false
   });
 
   useEffect(() => {
@@ -28,6 +30,7 @@ function SingleBeer(props) {
           attenuation_level: response.data.attenuation_level,
           description: response.data.description,
           contributed_by: response.data.contributed_by,
+          render: true
         });
       } catch (err) {
         console.error(err);
@@ -35,16 +38,40 @@ function SingleBeer(props) {
     }
     fetchData();
   }, [props]);
-  console.log(beer);
+
+
+  function renderBeer(){
+    return(
+      <>
+     <h1>{beer.name}</h1>
+        <div className="d-flex justify-content-flex-start align-items-center mb-5 mt-5">
+          <img src={beer.image} style={{ height: '200px' }} />
+          <div className="ml-5">
+            <b>AL {beer.attenuation_level}</b>
+            <br />
+            Since: {beer.first_brewed}
+          </div>
+        </div>
+        <p>
+          <b>
+            <i>{beer.tagline}</i>
+          </b>
+        </p>
+        <p className="text-justify">{beer.description}</p>
+        <p>
+          <b>{beer.contributed_by}</b>
+        </p>
+      </>
+    )
+  }
+
   return (
-    <div>
+    <>
       <Header></Header>
-      <img src={beer.image} />
-      {beer.name} {beer.attenuation_level} <br/>
-      {beer.tagline} {beer.first_brewed} <br />
-      {beer.description} <br />
-      {beer.contributed_by}
-    </div>
+      <Container>
+        {!beer.render ? <Spinner /> : renderBeer()}
+      </Container>
+    </>
   );
 }
 

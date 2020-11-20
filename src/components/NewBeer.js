@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import { Button } from 'react-bootstrap';
+import { Button,Container, Spinner } from 'react-bootstrap';
 import axios from 'axios';
 
 import Header from './Header';
 import FormInput from './FormInput';
-import SearchBar from './SearchBar';
+
+
 
 function NewBeer(props) {
   const [state, setState] = useState({
@@ -15,10 +16,12 @@ function NewBeer(props) {
     description: '',
     contributed_by: '',
     brewers_tips: '',
+    form: true,
   });
 
   function handleSubmit(event) {
     event.preventDefault();
+    setState({...state,form:false});
     async function fetchData() {
       try {
         const response = await axios.post(
@@ -34,10 +37,8 @@ function NewBeer(props) {
     props.history.push('/beers');
   }
 
-  return (
-    <div>
-      <Header></Header>
-      New Beer
+  function showForm(){
+    return (
       <form onSubmit={handleSubmit}>
         <FormInput
           label="Name"
@@ -96,7 +97,17 @@ function NewBeer(props) {
         />
         <Button variant="primary" as="input" type="submit" value="Submit" />
       </form>
-    </div>
+    );
+  }
+
+  return (
+    <>
+      <Header></Header>
+      <Container>
+        <h1>New Beer</h1>
+        {state.form ? showForm() : <Spinner />}
+      </Container>
+    </>
   );
 }
 
