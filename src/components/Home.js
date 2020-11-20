@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container,Button } from 'react-bootstrap';
+import { Container, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 function Home() {
@@ -31,7 +31,7 @@ function Home() {
       </div>
       <div className="card">
         <img
-          src="http://murphguide.com/wp-content/uploads/2013/01/thechurchill-taps.jpg"
+          src="https://thehalfwall.com/wp-content/uploads/2016/08/sliderimg.jpg"
           className="card-img-top"
           alt="..."
         />
