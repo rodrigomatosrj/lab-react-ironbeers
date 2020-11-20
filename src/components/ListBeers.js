@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import {Link} from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import SearchBar from './SearchBar';
+import {Row} from "react-bootstrap";
 
 import Header from './Header';
+import { Container } from 'react-bootstrap';
 
 function ListBeers() {
   const [beers, setBeers] = useState([]);
@@ -23,25 +25,35 @@ function ListBeers() {
     fetchData();
   }, [search]);
 
-console.log(beers);
+  console.log(beers);
   return (
-    <div>
+    <>
       <Header></Header>
-      List Beers
-      <SearchBar state={[search, setSearch]}></SearchBar>
-      {beers.map((beer) => {
-        return (
-          <div key={beer._id}>
-            <Link to={`/beers/${beer._id}`}>
-              <img src={beer.image_url} />
-              {beer.name} <br />
-              {beer.tagline} <br />
-              {beer.contributed_by}
-            </Link>
-          </div>
-        );
-      })}
-    </div>
+      <Container>
+        List Beers
+        <SearchBar state={[search, setSearch]}></SearchBar>
+        {beers.map((beer) => {
+          return (
+            <Row key={beer._id}>
+              <div className="card">
+                <img
+                  src={beer.image_url} style={{width: '200px'}}
+                  alt="..."
+                />
+                <div className="card-body">
+                  <h5 className="card-title">{beer.name} </h5>
+                  <p className="card-text">
+                    {beer.tagline} <br />
+                    {beer.contributed_by}
+                  </p>
+                  <Link to={`/beers/${beer._id}`} class="btn btn-primary">See details</Link>
+                </div>
+              </div>
+            </Row>
+          );
+        })}
+      </Container>
+    </>
   );
 }
 
